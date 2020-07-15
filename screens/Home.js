@@ -1,6 +1,14 @@
 import React from 'react';
-import {SafeAreaView, View, Text, StyleSheet, Image} from 'react-native';
-import {Card} from 'react-native-paper';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+} from 'react-native';
+import {Card, FAB} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Home = () => {
   const data = [
@@ -8,11 +16,19 @@ const Home = () => {
     {id: 2, name: 'Peter', position: 'android dev'},
     {id: 3, name: 'Lucy', position: 'ios dev'},
     {id: 4, name: 'Adam', position: 'backend dev'},
+    {id: 5, name: 'Jame', position: 'web dev'},
+    {id: 6, name: 'Peter', position: 'android dev'},
+    {id: 7, name: 'Lucy', position: 'ios dev'},
+    {id: 8, name: 'Adam', position: 'backend dev'},
+    {id: 9, name: 'Jame', position: 'web dev'},
+    {id: 10, name: 'Peter', position: 'android dev'},
+    {id: 11, name: 'Lucy', position: 'ios dev'},
+    {id: 12, name: 'Adam', position: 'backend dev'},
   ];
 
-  const renderList = data.map((item) => {
+  const renderItem = ({item}) => {
     return (
-      <Card style={styles.maycard} key={item.id}>
+      <Card style={styles.maycard}>
         <View style={styles.cardView}>
           <Image
             style={styles.image}
@@ -28,8 +44,23 @@ const Home = () => {
         </View>
       </Card>
     );
-  });
-  return <SafeAreaView>{renderList}</SafeAreaView>;
+  };
+
+  return (
+    <SafeAreaView>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={renderItem}
+      />
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        theme={{colors: {accent: '#006aff'}}}
+        onPress={() => console.log('Pressed')}
+      />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -47,6 +78,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 40,
+    right: 0,
+    bottom: 0,
   },
 });
 
