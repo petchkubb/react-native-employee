@@ -1,10 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Linking, Platform} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Title, Card, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Profile = () => {
+  const openDail = () => {
+    if (Platform.OS === 'android') {
+      Linking.openURL('tel:+123456789');
+    } else {
+      Linking.openURL('tel:+123456789');
+    }
+  };
+
   return (
     <View style={styles.root}>
       <LinearGradient colors={['#0033ff', '#6bc1ff']} style={{height: '20%'}} />
@@ -21,13 +29,15 @@ const Profile = () => {
         <Title>Jame McCarthy</Title>
         <Text style={{fontSize: 18}}>Web Developer</Text>
       </View>
-      <Card style={styles.mycard}>
+      <Card
+        style={styles.mycard}
+        onPress={() => Linking.openURL('mailto:support@expo.io')}>
         <View style={styles.cardContent}>
           <Icon name="email" size={32} color="#006aff" />
           <Text style={styles.text}>abc@mail.com</Text>
         </View>
       </Card>
-      <Card style={styles.mycard}>
+      <Card style={styles.mycard} onPress={() => openDail()}>
         <View style={styles.cardContent}>
           <Icon name="call" size={32} color="#006aff" />
           <Text style={styles.text}>0920070156</Text>
