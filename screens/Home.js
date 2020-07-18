@@ -8,9 +8,8 @@ import {
   FlatList,
 } from 'react-native';
 import {Card, FAB} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Home = (props) => {
+const Home = ({navigation}) => {
   const data = [
     {id: 1, name: 'Jame', position: 'web dev'},
     {id: 2, name: 'Peter', position: 'android dev'},
@@ -28,7 +27,9 @@ const Home = (props) => {
 
   const renderItem = ({item}) => {
     return (
-      <Card style={styles.maycard}>
+      <Card
+        style={styles.maycard}
+        onPress={() => navigation.navigate('Profile')}>
         <View style={styles.cardView}>
           <Image
             style={styles.image}
@@ -57,7 +58,7 @@ const Home = (props) => {
         style={styles.fab}
         icon="plus"
         theme={{colors: {accent: '#006aff'}}}
-        onPress={() => props.navigation.navigate('Create')}
+        onPress={() => navigation.navigate('Create')}
       />
     </SafeAreaView>
   );
