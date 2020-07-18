@@ -10,7 +10,7 @@ import {
 import {Card, FAB} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Home = () => {
+const Home = (props) => {
   const data = [
     {id: 1, name: 'Jame', position: 'web dev'},
     {id: 2, name: 'Peter', position: 'android dev'},
@@ -57,7 +57,7 @@ const Home = () => {
         style={styles.fab}
         icon="plus"
         theme={{colors: {accent: '#006aff'}}}
-        onPress={() => console.log('Pressed')}
+        onPress={() => props.navigation.navigate('Create')}
       />
     </SafeAreaView>
   );
