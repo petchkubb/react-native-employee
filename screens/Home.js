@@ -11,31 +11,48 @@ import {Card, FAB} from 'react-native-paper';
 
 const Home = ({navigation}) => {
   const data = [
-    {id: 1, name: 'Jame', position: 'web dev'},
-    {id: 2, name: 'Peter', position: 'android dev'},
-    {id: 3, name: 'Lucy', position: 'ios dev'},
-    {id: 4, name: 'Adam', position: 'backend dev'},
-    {id: 5, name: 'Jame', position: 'web dev'},
-    {id: 6, name: 'Peter', position: 'android dev'},
-    {id: 7, name: 'Lucy', position: 'ios dev'},
-    {id: 8, name: 'Adam', position: 'backend dev'},
-    {id: 9, name: 'Jame', position: 'web dev'},
-    {id: 10, name: 'Peter', position: 'android dev'},
-    {id: 11, name: 'Lucy', position: 'ios dev'},
-    {id: 12, name: 'Adam', position: 'backend dev'},
+    {
+      id: 1,
+      name: 'Jame McCarthy',
+      position: 'web dev',
+      salary: '10000 ฿',
+      phone: '1233454',
+      email: 'abc@mail.com',
+      picture:
+        'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
+    },
+    {
+      id: 2,
+      name: 'Paul Smith',
+      position: 'mobile dev',
+      salary: '10000 ฿',
+      phone: '1233454',
+      email: 'abc@mail.com',
+      picture:
+        'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
+    },
+    {
+      id: 3,
+      name: 'Maxxi Roregrez',
+      position: 'backend dev',
+      salary: '10000 ฿',
+      phone: '1233454',
+      email: 'abc@mail.com',
+      picture:
+        'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
+    },
   ];
 
   const renderItem = ({item}) => {
     return (
       <Card
         style={styles.maycard}
-        onPress={() => navigation.navigate('Profile')}>
+        onPress={() => navigation.navigate('Profile', {item})}>
         <View style={styles.cardView}>
           <Image
             style={styles.image}
             source={{
-              uri:
-                'https://images.unsplash.com/photo-1515041219749-89347f83291a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1334&q=80',
+              uri: item.picture,
             }}
           />
           <View style={{marginLeft: 10}}>
@@ -48,7 +65,7 @@ const Home = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <FlatList
         data={data}
         keyExtractor={(item) => String(item.id)}

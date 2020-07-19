@@ -4,7 +4,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Title, Card, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Profile = () => {
+const Profile = (props) => {
+  const {
+    name,
+    picture,
+    phone,
+    salary,
+    position,
+    email,
+  } = props.route.params.item;
+
   const openDail = () => {
     if (Platform.OS === 'android') {
       Linking.openURL('tel:+123456789');
@@ -19,34 +28,33 @@ const Profile = () => {
       <View style={styles.center}>
         <Image
           source={{
-            uri:
-              'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
+            uri: picture,
           }}
           style={styles.imageStyle}
         />
       </View>
       <View style={styles.center}>
-        <Title>Jame McCarthy</Title>
-        <Text style={{fontSize: 18}}>Web Developer</Text>
+        <Title>{name}</Title>
+        <Text style={{fontSize: 18}}>{position}</Text>
       </View>
       <Card
         style={styles.mycard}
         onPress={() => Linking.openURL('mailto:support@expo.io')}>
         <View style={styles.cardContent}>
           <Icon name="email" size={32} color="#006aff" />
-          <Text style={styles.text}>abc@mail.com</Text>
+          <Text style={styles.text}>{email}</Text>
         </View>
       </Card>
       <Card style={styles.mycard} onPress={() => openDail()}>
         <View style={styles.cardContent}>
           <Icon name="call" size={32} color="#006aff" />
-          <Text style={styles.text}>0920070156</Text>
+          <Text style={styles.text}>{phone}</Text>
         </View>
       </Card>
       <Card style={styles.mycard}>
         <View style={styles.cardContent}>
           <Icon name="attach-money" size={32} color="#006aff" />
-          <Text style={styles.text}>10000 ฿</Text>
+          <Text style={styles.text}>{salary}</Text>
         </View>
       </Card>
       <View style={styles.buttonContainer}>
