@@ -20,7 +20,14 @@ mongoose.connection.on('connected', () => console.log('connected to mongo!!'));
 mongoose.connection.on('error', (err) => console.log('error', err));
 
 app.get('/', (req, res) => {
-  res.send('welcome to node js');
+  Employee.find({})
+    .then((data) => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.post('/send-data', (req, res) => {
@@ -36,8 +43,36 @@ app.post('/send-data', (req, res) => {
   employee
     .save()
     .then((data) => {
-      console.log(data);
-      res.send('success');
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post('/delete', (req, res) => {
+  const {id} = req.body;
+  Employee.findByIdAndRemove(id)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post('/update', (req, res) => {
+  const {id, name, email, phone, picture, salary, position} = req.body;
+  Employee.findByIdAndUpdate(id, {
+    name,
+    email,
+    phone,
+    picture,
+    salary,
+    position,
+  })
+    .then((data) => {
+      res.send(data);
     })
     .catch((err) => {
       console.log(err);
