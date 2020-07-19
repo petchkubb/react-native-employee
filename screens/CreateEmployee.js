@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Modal, SafeAreaView} from 'react-native';
+import {View, StyleSheet, Modal, SafeAreaView, Alert} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
 
@@ -12,16 +12,73 @@ const CreateEmployee = () => {
   const [modal, setModal] = useState(false);
 
   const pickFormCamera = () => {
-    ImagePicker.launchCamera({}, (response) => {
-      console.log(response.uri);
+    const options = {
+      title: 'Select Photo',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        const type = response.type;
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.data,
+          type,
+          name: 'Image',
+        };
+        handleUpload(source);
+      }
     });
-    // setModal(false);
   };
   const pickFormGallery = () => {
-    ImagePicker.launchImageLibrary({}, (response) => {
-      console.log(response.uri);
+    const options = {
+      title: 'Select Photo',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        const type = response.type;
+        const source = {
+          uri: 'data:image/jpeg;base64,' + response.data,
+          type,
+          name: 'Image',
+        };
+        handleUpload(source);
+      }
     });
-    // setModal(false);
+  };
+
+  const handleUpload = (image) => {
+    //https://cloudinary.com
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', 'employeeApp');
+    data.append('cloud_name', 'du9wveggx');
+    data.append('api_key', '328149857846474');
+    fetch('https://api.cloudinary.com/v1_1/du9wveggx/image/upload', {
+      method: 'post',
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((val) => {
+        setPicture(val.secure_url);
+        setModal(false);
+      })
+      .catch((err) => {
+        Alert.alert('An Error Occured While Uploading', err);
+      });
   };
 
   return (
@@ -61,7 +118,7 @@ const CreateEmployee = () => {
       />
       <Button
         style={styles.inputStyle}
-        icon="upload"
+        icon={picture === '' ? 'upload' : 'check'}
         mode="contained"
         onPress={() => setModal(true)}
         theme={theme}>
