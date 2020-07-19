@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Modal, SafeAreaView} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
+import ImagePicker from 'react-native-image-picker';
 
 const CreateEmployee = () => {
   const [name, setName] = useState('');
@@ -9,6 +10,19 @@ const CreateEmployee = () => {
   const [salary, setSalary] = useState('');
   const [picture, setPicture] = useState('');
   const [modal, setModal] = useState(false);
+
+  const pickFormCamera = () => {
+    ImagePicker.launchCamera({}, (response) => {
+      console.log(response.uri);
+    });
+    // setModal(false);
+  };
+  const pickFormGallery = () => {
+    ImagePicker.launchImageLibrary({}, (response) => {
+      console.log(response.uri);
+    });
+    // setModal(false);
+  };
 
   return (
     <View style={styles.root}>
@@ -71,14 +85,14 @@ const CreateEmployee = () => {
             <Button
               icon="upload"
               mode="contained"
-              onPress={() => setModal(false)}
+              onPress={() => pickFormCamera()}
               theme={theme}>
               Camera
             </Button>
             <Button
               icon="image-area"
               mode="contained"
-              onPress={() => setModal(false)}
+              onPress={() => pickFormGallery()}
               theme={theme}>
               Gallary
             </Button>
