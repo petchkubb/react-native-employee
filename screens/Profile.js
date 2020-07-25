@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Profile = (props) => {
   const {
+    _id,
     name,
     picture,
     phone,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -7,41 +7,20 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import {Card, FAB} from 'react-native-paper';
+import {Card, FAB, ActivityIndicator} from 'react-native-paper';
 
 const Home = ({navigation}) => {
-  const data = [
-    {
-      id: 1,
-      name: 'Jame McCarthy',
-      position: 'web dev',
-      salary: '10000 ฿',
-      phone: '1233454',
-      email: 'abc@mail.com',
-      picture:
-        'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
-    },
-    {
-      id: 2,
-      name: 'Paul Smith',
-      position: 'mobile dev',
-      salary: '10000 ฿',
-      phone: '1233454',
-      email: 'abc@mail.com',
-      picture:
-        'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
-    },
-    {
-      id: 3,
-      name: 'Maxxi Roregrez',
-      position: 'backend dev',
-      salary: '10000 ฿',
-      phone: '1233454',
-      email: 'abc@mail.com',
-      picture:
-        'https://images.unsplash.com/photo-1503249023995-51b0f3778ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3011&q=80',
-    },
-  ];
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://284fecf6a2bc.ngrok.io/')
+      .then((res) => res.json())
+      .then((results) => {
+        setData(results);
+        setLoading(false);
+      });
+  }, []);
 
   const renderItem = ({item}) => {
     return (
@@ -66,17 +45,23 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={renderItem}
-      />
-      <FAB
-        style={styles.fab}
-        icon="plus"
-        theme={{colors: {accent: '#006aff'}}}
-        onPress={() => navigation.navigate('Create')}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => String(item._id)}
+            renderItem={renderItem}
+          />
+          <FAB
+            style={styles.fab}
+            icon="plus"
+            theme={{colors: {accent: '#006aff'}}}
+            onPress={() => navigation.navigate('Create')}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };
