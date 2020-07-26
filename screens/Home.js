@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  Alert,
 } from 'react-native';
 import {Card, FAB, ActivityIndicator} from 'react-native-paper';
 
@@ -13,14 +14,19 @@ const Home = ({navigation}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch('https://284fecf6a2bc.ngrok.io/')
+  const fetchData = () => {
+    fetch('https://a7be28edbe97.ngrok.io/')
       .then((res) => res.json())
       .then((results) => {
         setData(results);
         setLoading(false);
+      })
+      .catch(() => {
+        Alert.alert('Something went wrong');
       });
-  }, []);
+  };
+
+  useEffect(() => fetchData(), []);
 
   const renderItem = ({item}) => {
     return (
@@ -53,6 +59,8 @@ const Home = ({navigation}) => {
             data={data}
             keyExtractor={(item) => String(item._id)}
             renderItem={renderItem}
+            onRefresh={() => fetchData()}
+            refreshing={loading}
           />
           <FAB
             style={styles.fab}

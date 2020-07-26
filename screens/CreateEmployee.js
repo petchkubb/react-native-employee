@@ -13,7 +13,7 @@ const CreateEmployee = ({navigation}) => {
   const [modal, setModal] = useState(false);
 
   const submitData = () => {
-    fetch('https://284fecf6a2bc.ngrok.io/send-data', {
+    fetch('https://a7be28edbe97.ngrok.io/send-data', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -31,6 +31,9 @@ const CreateEmployee = ({navigation}) => {
       .then((data) => {
         Alert.alert(`${data.name} is save success`);
         navigation.navigate('Home');
+      })
+      .catch(() => {
+        Alert.alert('Something went wrong');
       });
   };
 

@@ -17,9 +17,9 @@ const Profile = (props) => {
 
   const openDail = () => {
     if (Platform.OS === 'android') {
-      Linking.openURL('tel:+123456789');
+      Linking.openURL(`tel:+${phone}`);
     } else {
-      Linking.openURL('tel:+123456789');
+      Linking.openURL(`tel:+${phone}`);
     }
   };
 
@@ -40,7 +40,7 @@ const Profile = (props) => {
       </View>
       <Card
         style={styles.mycard}
-        onPress={() => Linking.openURL('mailto:support@expo.io')}>
+        onPress={() => Linking.openURL(`mailto:${email}`)}>
         <View style={styles.cardContent}>
           <Icon name="email" size={32} color="#006aff" />
           <Text style={styles.text}>{email}</Text>
