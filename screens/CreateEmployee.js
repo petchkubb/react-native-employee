@@ -3,13 +3,34 @@ import {View, StyleSheet, Modal, SafeAreaView, Alert} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
 
-const CreateEmployee = ({navigation}) => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [salary, setSalary] = useState('');
-  const [picture, setPicture] = useState('');
-  const [position, setPosition] = useState('');
+const CreateEmployee = ({navigation, route}) => {
+  const getDetails = (type) => {
+    if (route.params) {
+      const {name, picture, phone, salary, position, email} = route.params;
+      switch (type) {
+        case 'name':
+          return name;
+        case 'phone':
+          return phone;
+        case 'email':
+          return email;
+        case 'salary':
+          return salary;
+        case 'picture':
+          return picture;
+        case 'position':
+          return position;
+      }
+    }
+    return '';
+  };
+
+  const [name, setName] = useState(getDetails('name'));
+  const [phone, setPhone] = useState(getDetails('phone'));
+  const [email, setEmail] = useState(getDetails('email'));
+  const [salary, setSalary] = useState(getDetails('salary'));
+  const [picture, setPicture] = useState(getDetails('picture'));
+  const [position, setPosition] = useState(getDetails('position'));
   const [modal, setModal] = useState(false);
 
   const submitData = () => {
@@ -30,6 +51,32 @@ const CreateEmployee = ({navigation}) => {
       .then((res) => res.json())
       .then((data) => {
         Alert.alert(`${data.name} is save success`);
+        navigation.navigate('Home');
+      })
+      .catch(() => {
+        Alert.alert('Something went wrong');
+      });
+  };
+
+  const updateDetails = () => {
+    fetch('https://a7be28edbe97.ngrok.io/update', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: route.params._id,
+        name,
+        email,
+        phone,
+        salary,
+        picture,
+        position,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        Alert.alert(`${data.name} is updated successfuly`);
         navigation.navigate('Home');
       })
       .catch(() => {
@@ -158,14 +205,25 @@ const CreateEmployee = ({navigation}) => {
         theme={theme}>
         Upload Image
       </Button>
-      <Button
-        style={styles.inputStyle}
-        icon="content-save"
-        mode="contained"
-        onPress={() => submitData()}
-        theme={theme}>
-        Save
-      </Button>
+      {route.params ? (
+        <Button
+          style={styles.inputStyle}
+          icon="content-save"
+          mode="contained"
+          onPress={() => updateDetails()}
+          theme={theme}>
+          Update
+        </Button>
+      ) : (
+        <Button
+          style={styles.inputStyle}
+          icon="content-save"
+          mode="contained"
+          onPress={() => submitData()}
+          theme={theme}>
+          Save
+        </Button>
+      )}
       <Modal
         animationType="slide"
         transparent={true}
