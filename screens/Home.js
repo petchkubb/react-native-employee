@@ -9,17 +9,25 @@ import {
   Alert,
 } from 'react-native';
 import {Card, FAB, ActivityIndicator} from 'react-native-paper';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Home = ({navigation}) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  const dispatch = useDispatch();
+  const {data, loading} = useSelector((state) => {
+    return state;
+  });
 
   const fetchData = () => {
     fetch('https://a7be28edbe97.ngrok.io/')
       .then((res) => res.json())
       .then((results) => {
-        setData(results);
-        setLoading(false);
+        // setData(results);
+        // setLoading(false);
+        dispatch({type: 'ADD_DATA', payload: results});
+        dispatch({type: 'SET_LOADING', payload: false});
       })
       .catch(() => {
         Alert.alert('Something went wrong');

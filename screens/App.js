@@ -1,6 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {reducer} from '../reducers';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -8,6 +11,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from './Home.js';
 import CreateEmployee from './CreateEmployee.js';
 import Profile from './Profile.js';
+
+const store = createStore(reducer);
 
 const Stack = createStackNavigator();
 const options = {
@@ -45,8 +50,10 @@ const styles = StyleSheet.create({
 
 export default () => {
   return (
-    <NavigationContainer>
-      <App />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <App />
+      </NavigationContainer>
+    </Provider>
   );
 };
