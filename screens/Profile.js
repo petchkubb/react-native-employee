@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Linking, Platform} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Linking,
+  Platform,
+  Alert,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Title, Card, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,6 +22,24 @@ const Profile = (props) => {
     position,
     email,
   } = props.route.params.item;
+
+  const deleteEmployee = () => {
+    fetch('https://a7be28edbe97.ngrok.io/delete', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((deleteEmp) => {
+        Alert.alert(`${deleteEmp.name} was deleted`);
+        props.navigation.navigate('Home');
+      })
+      .catch(() => Alert.alert('Something went wrong'));
+  };
 
   const openDail = () => {
     if (Platform.OS === 'android') {
@@ -66,7 +92,11 @@ const Profile = (props) => {
           onPress={() => {}}>
           Edit
         </Button>
-        <Button icon="delete" mode="contained" theme={theme} onPress={() => {}}>
+        <Button
+          icon="delete"
+          mode="contained"
+          theme={theme}
+          onPress={() => deleteEmployee()}>
           Fire Employee
         </Button>
       </View>
