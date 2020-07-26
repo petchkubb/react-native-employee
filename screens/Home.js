@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   SafeAreaView,
   View,
@@ -10,15 +10,22 @@ import {
 } from 'react-native';
 import {Card, FAB, ActivityIndicator} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
+import {Mycontext} from '../screens/App';
 
 const Home = ({navigation}) => {
+  //-- normal
   // const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(true);
 
-  const dispatch = useDispatch();
-  const {data, loading} = useSelector((state) => {
-    return state;
-  });
+  //-- redux
+  // const dispatch = useDispatch();
+  // const {data, loading} = useSelector((state) => {
+  //   return state;
+  // });
+
+  //-- context API
+  const {state, dispatch} = useContext(Mycontext);
+  const {data, loading} = state;
 
   const fetchData = () => {
     fetch('https://a7be28edbe97.ngrok.io/')
